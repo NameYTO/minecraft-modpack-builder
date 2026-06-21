@@ -91,7 +91,6 @@ items_universal = [
     {"item_id": "minecraft:wooden_pickaxe", "name": "Дерев'яна кирка",     "category": "Інструменти та зброя"},
     {"item_id": "minecraft:stone_pickaxe",  "name": "Кам'яна кирка",       "category": "Інструменти та зброя"},
     {"item_id": "minecraft:golden_pickaxe", "name": "Золота кирка",        "category": "Інструменти та зброя"},
-    {"item_id": "minecraft:golden_sword",   "name": "Золотий меч",         "category": "Інструменти та зброя"},
     {"item_id": "minecraft:diamond_axe",    "name": "Алмазна сокира",      "category": "Інструменти та зброя"},
     {"item_id": "minecraft:diamond_shovel", "name": "Алмазна лопата",      "category": "Інструменти та зброя"},
     {"item_id": "minecraft:diamond_hoe",    "name": "Алмазна мотика",      "category": "Інструменти та зброя"},
