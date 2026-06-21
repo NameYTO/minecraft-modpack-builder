@@ -134,44 +134,46 @@ body {
 }
 /* 3D CSS cube (versions card) */
 .mc-cube-wrap {
-  width:64px; height:64px; perspective:200px;
+  width:90px; height:90px; perspective:1200px;
   display:flex; align-items:center; justify-content:center;
 }
 .mc-cube {
-  width:42px; height:42px; position:relative;
+  width:68px; height:68px; position:relative;
   transform-style:preserve-3d;
-  transform:rotateX(30deg) rotateY(-45deg);
+  transform:rotateX(-30deg) rotateY(-45deg);
 }
 .mc-face {
-  position:absolute; width:42px; height:42px;
+  position:absolute; width:68px; height:68px;
   image-rendering:pixelated; background-size:100% 100%;
   backface-visibility:hidden;
 }
-/* Top: grass_block_top.png is grey in raw assets — CSS filter makes it Minecraft-green */
+/* Top face: grass_block_top.png (grey in raw assets → tinted green by CSS filter) */
 .mc-face-top {
-  transform:rotateX(90deg) translateZ(21px);
+  transform:rotateX(90deg) translateZ(34px);
   background-image:url('https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.1/assets/minecraft/textures/block/grass_block_top.png');
   filter:sepia(1) hue-rotate(84deg) saturate(3.2) brightness(1.05);
 }
 /* Front-left face (lighter) */
 .mc-face-front {
-  transform:translateZ(21px);
+  transform:translateZ(34px);
   background-image:url('https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.1/assets/minecraft/textures/block/grass_block_side.png');
   filter:brightness(1.0);
 }
 /* Front-right face (darker shadow) */
 .mc-face-right {
-  transform:rotateY(90deg) translateZ(21px);
+  transform:rotateY(90deg) translateZ(34px);
   background-image:url('https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.1/assets/minecraft/textures/block/grass_block_side.png');
   filter:brightness(0.68);
 }
-/* Cube spin on hover — full 360° around Y keeping tilt */
-.feature-card:hover .mc-cube {
-  animation:mcCubeSpin .8s ease-in-out;
-}
+/* Hidden faces — solid colour so cube is never see-through */
+.mc-face-back   { transform:rotateY(180deg) translateZ(34px); background:#2c1a08; }
+.mc-face-left   { transform:rotateY(-90deg) translateZ(34px); background:#3b240e; }
+.mc-face-bottom { transform:rotateX(-90deg) translateZ(34px); background:#2c1a08; }
+/* Full 360° spin on hover */
+.feature-card:hover .mc-cube { animation:mcCubeSpin .8s ease-in-out; }
 @keyframes mcCubeSpin {
-  0%   { transform:rotateX(30deg) rotateY(-45deg); }
-  100% { transform:rotateX(30deg) rotateY(315deg); }
+  0%   { transform:rotateX(-30deg) rotateY(-45deg); }
+  100% { transform:rotateX(-30deg) rotateY(315deg); }
 }
 .feature-name { font-family:var(--font-px); font-size:7px; color:var(--panel-text); margin-bottom:8px; }
 .feature-desc { font-size:15px; color:#333; line-height:1.5; }
@@ -721,6 +723,9 @@ code { font-family:monospace; font-size:14px; background:#1a1a1a; padding:1px 5p
                 <div class="mc-face mc-face-top"></div>
                 <div class="mc-face mc-face-front"></div>
                 <div class="mc-face mc-face-right"></div>
+                <div class="mc-face mc-face-back"></div>
+                <div class="mc-face mc-face-left"></div>
+                <div class="mc-face mc-face-bottom"></div>
               </div>
             </div>
           </div>
@@ -1554,10 +1559,11 @@ function showApp(user) {
     document.getElementById('admin-panel').classList.add('hidden');
   }
   checkHealth();
-  const ver = document.getElementById('game-version').value;
+  const verEl = document.getElementById('game-version');
+  if (!verEl.value) verEl.value = '1.20.1';   // default so picker works immediately
   updateVersionBadge();
   switchStation('crafting');
-  fetchItems(ver);
+  fetchItems(verEl.value);
 }
 
 /* ── Auth ────────────────────────────────────────────────────────── */
@@ -1851,10 +1857,10 @@ const STATION_DD = [
   { value:'smelting',     label:'Піч',            sub:'Furnace',        tex:'block/furnace_front' },
   { value:'blasting',     label:'Доменна піч',    sub:'Blast Furnace',  tex:'block/blast_furnace_front' },
   { value:'smoking',      label:'Коптильня',      sub:'Smoker',         tex:'block/smoker_front' },
-  { value:'campfire',     label:'Багаття',        sub:'Campfire',       tex:'block/campfire_log' },
-  { value:'stonecutting', label:"Кам'яноріз",     sub:'Stonecutter',    tex:'block/stonecutter_saw' },
+  { value:'campfire',     label:'Багаття',        sub:'Campfire',       tex:'block/campfire_fire' },
+  { value:'stonecutting', label:"Кам'яноріз",     sub:'Stonecutter',    tex:'block/stonecutter_bottom' },
   { value:'smithing',     label:'Стіл коваля',    sub:'Smithing Table', tex:'block/smithing_table_front' },
-  { value:'anvil',        label:'Ковадло',        sub:'Anvil',          tex:'block/anvil' },
+  { value:'anvil',        label:'Ковадло',        sub:'Anvil',          tex:'block/anvil_top' },
   { value:'brewing',      label:'Алхімічна стійка',sub:'Brewing Stand', tex:'item/brewing_stand' },
 ];
 const STATION_TEX_BASE = 'https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.1/assets/minecraft/textures';
